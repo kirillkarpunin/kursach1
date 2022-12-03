@@ -1,0 +1,1 @@
+void get_text(text_t* ptr_Text);
