@@ -4,7 +4,7 @@
 
 text_t* create_struct_text() {
     text_t* ptr_Text = malloc(sizeof(text_t));
-    *ptr_Text = (text_t){1, 15, malloc(ptr_Text->len * sizeof(sent_t))};
+    *ptr_Text = (text_t){1, 10, malloc(ptr_Text->len * sizeof(sent_t))};
 
     create_struct_sent(ptr_Text);
 
@@ -14,6 +14,6 @@ text_t* create_struct_text() {
 void create_struct_sent(text_t* ptr_Text){
 
     ptr_Text->sent_arr[ptr_Text->len -1].len = 0;
-    ptr_Text->sent_arr[ptr_Text->len -1].capacity = 10;
+    ptr_Text->sent_arr[ptr_Text->len -1].capacity = 5;
     ptr_Text->sent_arr[ptr_Text->len -1].start = malloc(ptr_Text->sent_arr[ptr_Text->len -1].capacity * sizeof(wchar_t));
 }

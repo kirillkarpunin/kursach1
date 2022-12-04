@@ -10,6 +10,8 @@ int main(){
 
     get_text(ptr_Text);
 
+    ptr_Text->len -= 1;
+
     for (int i = 0; i < ptr_Text->len; i++){
         fputws(ptr_Text->sent_arr[i].start, stdout);
     }

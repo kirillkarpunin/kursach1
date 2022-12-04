@@ -19,8 +19,7 @@ void increase_buffer_text(text_t* ptr_Text){
 
 void increase_buffer_sent(text_t* ptr_Text){
     ptr_Text->sent_arr[ptr_Text->len -1].capacity += ptr_Text->increase_buffer_sent;
-    wprintf(L"len: %lu, capacity: %lu\n", ptr_Text->sent_arr[ptr_Text->len -1].len, ptr_Text->sent_arr[ptr_Text->len -1].capacity);
-    wchar_t* temp = realloc(ptr_Text->sent_arr[ptr_Text->len -1].start, ptr_Text->sent_arr[ptr_Text->len -1].capacity);
+    wchar_t* temp = realloc(ptr_Text->sent_arr[ptr_Text->len -1].start, ptr_Text->sent_arr[ptr_Text->len -1].capacity * sizeof(wchar_t));
 
     if (temp){
         ptr_Text->sent_arr[ptr_Text->len -1].start = temp;
