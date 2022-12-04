@@ -10,7 +10,7 @@ void get_text(text_t* ptr_Text){
             *(ptr_Text->sent_arr[ptr_Text->len - 1].start + ptr_Text->sent_arr[ptr_Text->len - 1].len) = c;
             ptr_Text->sent_arr[ptr_Text->len - 1].len += 1;
 
-            if (ptr_Text->sent_arr[ptr_Text->len - 1].len >= ptr_Text->max_sent_len - 1) {
+            if (ptr_Text->sent_arr[ptr_Text->len - 1].len >= ptr_Text->sent_arr[ptr_Text->len -1].capacity - 2) {
                 break; //increase buffer
             }
         } while (c != L'.');

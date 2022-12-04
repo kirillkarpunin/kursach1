@@ -4,13 +4,14 @@
 
 struct Sentence{
     unsigned long len;
+    unsigned long capacity;
     wchar_t* start;
 };
 typedef struct Sentence sent_t;
 
 struct Text{
     unsigned long len;
-    unsigned long max_sent_len;
+    int increase_buffer_sent;
     sent_t* sent_arr;
 };
 typedef struct Text text_t;
