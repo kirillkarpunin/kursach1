@@ -1,5 +1,5 @@
 #include "../header_files/structs.h"
-#include "../header_files/increase_buffer.h"
+#include "../header_files/memory_interaction.h"
 
 void get_text(text_t* ptr_Text){
     int stop = 0;
