@@ -5,7 +5,7 @@
 struct Sentence{
     unsigned long len;
     unsigned long capacity;
-//    unsigned long amount_of_words;
+    unsigned long amount_of_words;
     wchar_t* start;
 };
 typedef struct Sentence sent_t;

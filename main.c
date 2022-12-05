@@ -1,7 +1,7 @@
 #include <locale.h>
 #include <stdio.h>
 #include "header_files/structs.h"
-#include "header_files/get_text.h"
+#include "header_files/text_io.h"
 #include "process_text.h"
 
 int main(){
@@ -15,7 +15,6 @@ int main(){
 
     for (int i = 0; i < ptr_Text->len; i++){
         fputws(ptr_Text->sent_arr[i].start, stdout);
-//        wprintf(L"\n%lu\n", ptr_Text->sent_arr[i].amount_of_words);
     }
 
     return 0;
