@@ -15,12 +15,13 @@ void get_text(text_t* ptr_Text){
             }
 
             if (c == L'\n'){
-                wchar_t temp_c = getwchar();
-                if (temp_c == L'\n'){
+                wchar_t temp_c = c;
+                c = getwchar();
+                if (c == L'\n'){
                     stop = 1;
 
                     if (ptr_Text->sent_arr[ptr_Text->len - 1].len == 0){
-                        destroy_sent(ptr_Text);
+                        destroy_sent(ptr_Text, ptr_Text->len - 1);
                     } else {
                         *(ptr_Text->sent_arr[ptr_Text->len - 1].start + ptr_Text->sent_arr[ptr_Text->len - 1].len) = L'.';
                         ptr_Text->sent_arr[ptr_Text->len - 1].len ++;
@@ -29,6 +30,9 @@ void get_text(text_t* ptr_Text){
                     }
 
                     break;
+                } else {
+                    *(ptr_Text->sent_arr[ptr_Text->len - 1].start + ptr_Text->sent_arr[ptr_Text->len - 1].len) = temp_c;
+                    ptr_Text->sent_arr[ptr_Text->len - 1].len ++;
                 }
             }
 

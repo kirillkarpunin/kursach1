@@ -1,18 +1,19 @@
 #pragma once
 
+#define INCREASE_BUFFER_SENT 75
+
 #include <wchar.h>
 
 struct Sentence{
-    unsigned long len;
-    unsigned long capacity;
-    unsigned long amount_of_words;
+    size_t len;
+    size_t capacity;
+    size_t amount_of_words;
     wchar_t* start;
 };
 typedef struct Sentence sent_t;
 
 struct Text{
-    unsigned long len;
-    int increase_buffer_sent;
+    size_t len;
     sent_t* sent_arr;
 };
 typedef struct Text text_t;

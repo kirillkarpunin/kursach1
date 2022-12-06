@@ -6,7 +6,6 @@ text_t* create_struct_text() {
     text_t* ptr_Text = malloc(sizeof(text_t));
 
     ptr_Text->len = 1;
-    ptr_Text->increase_buffer_sent = 75;
     ptr_Text->sent_arr = malloc(ptr_Text->len * sizeof(sent_t));
 
     create_struct_sent(ptr_Text);
