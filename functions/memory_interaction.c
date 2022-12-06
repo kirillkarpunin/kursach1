@@ -30,3 +30,11 @@ void increase_buffer_sent(text_t* ptr_Text){
         exit(0);
     }
 }
+
+void destroy_sent(text_t* ptr_Text){
+    free(ptr_Text->sent_arr[ptr_Text->len - 1].start);
+    free(ptr_Text->sent_arr+(ptr_Text->len - 1));
+    ptr_Text->sent_arr+(ptr_Text->len - 1) = NULL;
+
+    ptr_Text->len --;
+}

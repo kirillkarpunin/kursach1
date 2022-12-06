@@ -12,6 +12,7 @@ int main(){
     get_text(ptr_Text);
 
     count_words(ptr_Text);
+    delete_repetitive_sents(ptr_Text);
 
     for (int i = 0; i < ptr_Text->len; i++){
         fputws(ptr_Text->sent_arr[i].start, stdout);
