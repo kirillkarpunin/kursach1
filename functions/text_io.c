@@ -14,7 +14,7 @@ void get_text(text_t* ptr_Text){
             c = getwchar();
 
             if (ptr_Text->sent_arr[ptr_Text->len - 1].len >= ptr_Text->sent_arr[ptr_Text->len -1].capacity - 1) {
-                increase_buffer_sent(ptr_Text);
+                increase_buffer_sent(ptr_Text, ptr_Text->len -1);
             }
 
             if (c == L'\n'){

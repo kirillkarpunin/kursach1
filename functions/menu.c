@@ -28,7 +28,7 @@ void menu(text_t* ptr_Text){
 
         switch (c) {
             case L'1':
-                wprintf(L"1\n");
+                replace_tsya(ptr_Text);
                 break;
             case L'2':
                 wprintf(L"2\n");
