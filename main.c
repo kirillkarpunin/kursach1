@@ -1,10 +1,10 @@
 #include <locale.h>
-#include <stdio.h>
 
 #include "header_files/structs.h"
 #include "header_files/text_io.h"
 #include "header_files/memory_interaction.h"
-#include "process_text.h"
+#include "header_files/process_text.h"
+#include "header_files/menu.h"
 
 int main(){
     setlocale(LC_ALL, "ru_RU.UTF-8");
@@ -22,10 +22,7 @@ int main(){
     count_words(ptr_Text);
     delete_repetitive_sents(ptr_Text);
 
-    for (int i = 0; i < ptr_Text->len; i++){
-        fputws(ptr_Text->sent_arr[i].start, stdout);
-//        wprintf(L"%lu", ptr_Text->sent_arr[i].amount_of_words);
-    }
+    menu(ptr_Text);
 
     return 0;
 }

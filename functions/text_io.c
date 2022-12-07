@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "../header_files/structs.h"
 #include "../header_files/memory_interaction.h"
 
@@ -48,4 +50,12 @@ void get_text(text_t* ptr_Text){
             increase_buffer_text(ptr_Text);
         }
     }
+}
+
+void print_text(text_t* ptr_Text){
+    wprintf(L"Обработанный текст:\n");
+    for (int i = 0; i < ptr_Text->len; i++){
+        fputws(ptr_Text->sent_arr[i].start, stdout);
+    }
+    wprintf(L"\n");
 }
