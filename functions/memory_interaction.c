@@ -4,45 +4,6 @@
 
 #include "../header_files/structs.h"
 
-void increase_buffer_text(text_t* ptr_Text){
-    if (ptr_Text->len > SIZE_MAX){
-        wprintf(L"Достигнута максимальная длина текста.\nПрекращение выполнения программы.\n");
-        //destroy
-        exit(0);
-    }
-    sent_t* temp = realloc(ptr_Text->sent_arr, ptr_Text->len * sizeof(sent_t));
-
-    if (temp){
-        ptr_Text->sent_arr = temp;
-
-        create_struct_sent(ptr_Text);
-
-    } else {
-        wprintf(L"Не удалось перевыделить память.\nПрекращение выполнения программы.\n");
-        //destroy
-        exit(0);
-    }
-}
-
-void increase_buffer_sent(text_t* ptr_Text, size_t index){
-    ptr_Text->sent_arr[index].capacity += INCREASE_BUFFER_SENT;
-    if (ptr_Text->sent_arr[index].capacity > SIZE_MAX){
-        wprintf(L"Достигнута максимальная длина предложения.\nПрекращение выполнения программы.\n");
-        //destroy
-        exit(0);
-    }
-    wchar_t* temp = realloc(ptr_Text->sent_arr[index].start, ptr_Text->sent_arr[index].capacity * sizeof(wchar_t));
-
-    if (temp){
-        ptr_Text->sent_arr[index].start = temp;
-
-    } else{
-        wprintf(L"Не удалось перевыделить память.\nПрекращение выполнения программы.\n");
-        //destroy
-        exit(0);
-    }
-}
-
 void destroy_sent(text_t* ptr_Text, size_t index){
     free(ptr_Text->sent_arr[index].start);
 
@@ -54,4 +15,49 @@ void destroy_sent(text_t* ptr_Text, size_t index){
     ptr_Text->sent_arr[ptr_Text->len -1].start = NULL;
 
     ptr_Text->len --;
+}
+
+void destroy_text(text_t* ptr_Text){
+    for (int i = 0; i < ptr_Text->len;){
+        destroy_sent(ptr_Text, i);
+    }
+}
+
+void increase_buffer_sent(text_t* ptr_Text, size_t index){
+    ptr_Text->sent_arr[index].capacity += INCREASE_BUFFER_SENT;
+    if (ptr_Text->sent_arr[index].capacity > SIZE_MAX){
+        wprintf(L"Достигнута максимальная длина предложения.\nПрекращение выполнения программы.\n");
+        destroy_text(ptr_Text);
+        exit(0);
+    }
+    wchar_t* temp = realloc(ptr_Text->sent_arr[index].start, ptr_Text->sent_arr[index].capacity * sizeof(wchar_t));
+
+    if (temp){
+        ptr_Text->sent_arr[index].start = temp;
+
+    } else{
+        wprintf(L"Не удалось перевыделить память.\nПрекращение выполнения программы.\n");
+        destroy_text(ptr_Text);
+        exit(0);
+    }
+}
+
+void increase_buffer_text(text_t* ptr_Text){
+    if (ptr_Text->len > SIZE_MAX){
+        wprintf(L"Достигнута максимальная длина текста.\nПрекращение выполнения программы.\n");
+        destroy_text(ptr_Text);
+        exit(0);
+    }
+    sent_t* temp = realloc(ptr_Text->sent_arr, ptr_Text->len * sizeof(sent_t));
+
+    if (temp){
+        ptr_Text->sent_arr = temp;
+
+        create_struct_sent(ptr_Text);
+
+    } else {
+        wprintf(L"Не удалось перевыделить память.\nПрекращение выполнения программы.\n");
+        destroy_text(ptr_Text);
+        exit(0);
+    }
 }

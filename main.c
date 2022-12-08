@@ -16,7 +16,7 @@ int main(){
 
     if (ptr_Text->len == 0){
         wprintf(L"Введен пустой текст.\nПрекращение выполнения программы.\n");
-        //destroy
+        destroy_text(ptr_Text);
         return 0;
     }
 
