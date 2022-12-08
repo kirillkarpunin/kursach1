@@ -34,7 +34,7 @@ void menu(text_t* ptr_Text){
                 wprintf(L"2\n");
                 break;
             case L'3':
-                wprintf(L"3\n");
+                sort_text(ptr_Text);
                 break;
             case L'4':
                 delete_sents_more_10_words(ptr_Text);

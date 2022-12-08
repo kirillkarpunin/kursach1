@@ -1,4 +1,5 @@
 #include <wctype.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "../header_files/structs.h"
@@ -40,7 +41,7 @@ void delete_repetitive_sents(text_t* ptr_Text){
 
             if (!wcscasecmp(ptr_Text->sent_arr[i].start, ptr_Text->sent_arr[j].start)){
                 destroy_sent(ptr_Text, j);
-                j --;
+                j--;
             }
 
         }
@@ -51,6 +52,7 @@ void delete_sents_more_10_words(text_t* ptr_Text){
     for (int i = 0; i < ptr_Text->len; i++){
         if (ptr_Text->sent_arr[i].amount_of_words > 10){
             destroy_sent(ptr_Text, i);
+            i--;
         }
     }
 }
@@ -111,6 +113,27 @@ void replace_tsya(text_t* ptr_Text) {
                     start = index2;
                 }
             }
+        }
+    }
+}
+
+int cmp (const void* a, const void* b);
+
+void sort_text(text_t* ptr_Text){
+    qsort(ptr_Text->sent_arr, ptr_Text->len, sizeof(sent_t), cmp);
+}
+
+int cmp (const void* a, const void* b){
+    const sent_t* first = (sent_t*)a;
+    const sent_t* second = (sent_t*)b;
+
+    if (first->amount_of_words == second->amount_of_words){
+        return 0;
+    } else {
+        if (first->amount_of_words > second->amount_of_words){
+            return 1;
+        } else {
+            return -1;
         }
     }
 }
