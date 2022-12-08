@@ -55,77 +55,62 @@ void delete_sents_more_10_words(text_t* ptr_Text){
     }
 }
 
-void replace_tsya(text_t* ptr_Text){
-    wchar_t* substr = L"ться";
-    for (int i = 0; i < ptr_Text->len; i++){
-        wchar_t* index = ptr_Text->sent_arr[i].start;
-        wchar_t* end = ptr_Text->sent_arr[i].start + ptr_Text->sent_arr[i].len;
+void replace_tsya(text_t* ptr_Text) {
+    wchar_t *substr1 = L"ться";
+    wchar_t *substr2 = L"тся";
 
-        while (index < end){
-            index = wcsstr(index, substr);
-            if (index == NULL){
-                break;
-            }
-
-            for (int j = 0; j < 4; j++){
-                *(index+j) = L'ф';
-            }
-            index+=4;
-        }
-    }
-
-
-    substr = L"тся";
-    for (int i = 0; i < ptr_Text->len; i++){
-        wchar_t* index = ptr_Text->sent_arr[i].start;
-        wchar_t* end = ptr_Text->sent_arr[i].start + ptr_Text->sent_arr[i].len;
-
-        while (index < end) {
-            index = wcsstr(index, substr);
-            if (index == NULL) {
-                break;
-            }
-
-            if (ptr_Text->sent_arr[i].len == ptr_Text->sent_arr[i].capacity){
-                increase_buffer_sent(ptr_Text, i);
-            }
-
-            index++;
-            *(index) = L'ь';
-            index++;
-            *(index) = L'с';
-            index++;
-
-            memmove(index+1, index, (end - index) * sizeof(wchar_t));
-            ptr_Text->sent_arr[i].len++;
-            end ++;
-
-            *(index) = L'я';
-
-        }
-    }
-
-    substr = L"фффф";
     for (int i = 0; i < ptr_Text->len; i++) {
-        wchar_t *index = ptr_Text->sent_arr[i].start;
+        wchar_t *start = ptr_Text->sent_arr[i].start;
         wchar_t *end = ptr_Text->sent_arr[i].start + ptr_Text->sent_arr[i].len;
 
-        while (index < end) {
-            index = wcsstr(index, substr);
-            if (index == NULL) {
-                break;
+        while (start < end) {
+            wchar_t *index1 = wcsstr(start, substr1);
+            wchar_t *index2 = wcsstr(start, substr2);
+
+            if (index1 < start || index1 > end){
+                index1 = NULL;
+            }
+            if (index2 < start || index2 > end){
+                index2 = NULL;
             }
 
-            *(index) = L'т';
-            index++;
-            *(index) = L'с';
-            index++;
-            *(index) = L'я';
-            index++;
+            if (index1 == NULL && index2 == NULL ) {
+                break;
+            } else {
+                if ((index2 == NULL || index1 < index2) && index1 != NULL) {
+                    index1++;
+                    *(index1) = L'с';
+                    index1++;
+                    *(index1) = L'я';
+                    index1++;
 
-            memmove(index, index+1, (end - index) * sizeof(wchar_t));
-            ptr_Text->sent_arr[i].len--;
-            end --;
+                    memmove(index1, index1 + 1, (end - index1) * sizeof(wchar_t));
+                    ptr_Text->sent_arr[i].len--;
+
+                    end--;
+                    start = index1;
+
+                } else {
+                    if (ptr_Text->sent_arr[i].len == ptr_Text->sent_arr[i].capacity) {
+                        increase_buffer_sent(ptr_Text, i);
+                    }
+
+                    index2++;
+                    *(index2) = L'ь';
+                    index2++;
+                    *(index2) = L'с';
+                    index2++;
+
+                    memmove(index2 + 1, index2, (end - index2) * sizeof(wchar_t));
+                    ptr_Text->sent_arr[i].len++;
+                    end++;
+
+                    *(index2) = L'я';
+                    index2++;
+
+                    start = index2;
+                }
+            }
         }
     }
 }
