@@ -25,5 +25,7 @@ int main(){
 
     menu(ptr_Text);
 
+    destroy_text(ptr_Text);
+
     return 0;
 }

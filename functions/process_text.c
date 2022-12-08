@@ -86,7 +86,7 @@ void replace_tsya(text_t* ptr_Text) {
                     *(index1) = L'я';
                     index1++;
 
-                    memmove(index1, index1 + 1, (end - index1 - 1) * sizeof(wchar_t));
+                    memmove(index1, index1 + 1, (end - index1) * sizeof(wchar_t));
                     ptr_Text->sent_arr[i].len--;
 
                     end--;

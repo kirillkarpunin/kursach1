@@ -28,3 +28,5 @@ create_struct.o: $(FUNC)/create_struct.c $(HEAD)/structs.h
 memory_interaction.o: $(FUNC)/memory_interaction.c $(HEAD)/memory_interaction.h $(HEAD)/structs.h
 	gcc -c $(FUNC)/memory_interaction.c -o $(OBJ)/memory_interaction.o 
 
+clear:
+	rm -f $(OBJ)/*.o
