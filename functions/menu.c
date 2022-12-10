@@ -9,6 +9,7 @@ void hint(){
             "\n\t2 - Вывести все предложения, в которых встречается второе слово\nпервого предложения (слово выделено зеленым)"
             "\n\t3 - Отсортировать предложения по возрастанию количества слов"
             "\n\t4 - Удалить предложения, в которых больше 10 слов"
+            "\n\tp - Вывод обработанного текста"
             "\n\th - Вывод подсказки"
             "\n\tq - Завершение работы программы"
             "\n-----------------------------------------------------------------------\n");
@@ -31,13 +32,15 @@ void menu(text_t* ptr_Text){
                 replace_tsya(ptr_Text);
                 break;
             case L'2':
-                wprintf(L"2\n");
-                break;
+                highlight_word(ptr_Text);
+                continue;
             case L'3':
                 sort_text(ptr_Text);
                 break;
             case L'4':
                 delete_sents_more_10_words(ptr_Text);
+                break;
+            case L'p':
                 break;
             case L'h':
                 hint();
@@ -46,9 +49,10 @@ void menu(text_t* ptr_Text){
                 break;
             default:
                 wprintf(L"Неверный ввод\n");
+                continue;
         }
 
-        if (c != L'q'){
+        if (c != L'q' ){
             print_text(ptr_Text);
         }
 

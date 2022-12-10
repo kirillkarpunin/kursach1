@@ -61,9 +61,8 @@ void print_text(text_t* ptr_Text){
         exit(0);
     }
     wprintf(L"\nОбработанный текст:\n");
-    for (int i = 0; i < ptr_Text->len; i++){
+    for (size_t i = 0; i < ptr_Text->len; i++){
         fputws(ptr_Text->sent_arr[i].start, stdout);
-//        wprintf(L"%lu", ptr_Text->sent_arr[i].amount_of_words);
     }
     wprintf(L"\n");
 }

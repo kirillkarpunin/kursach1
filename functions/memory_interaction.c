@@ -18,7 +18,7 @@ void destroy_sent(text_t* ptr_Text, size_t index){
 }
 
 void destroy_text(text_t* ptr_Text){
-    for (int i = 0; i < ptr_Text->len;){
+    for (size_t i = 0; i < ptr_Text->len;){
         destroy_sent(ptr_Text, i);
     }
     free(ptr_Text);

@@ -9,3 +9,5 @@ void delete_sents_more_10_words(text_t* ptr_Text);
 void replace_tsya(text_t* ptr_Text);
 
 void sort_text(text_t* ptr_Text);
+
+void highlight_word(text_t* ptr_Text);
