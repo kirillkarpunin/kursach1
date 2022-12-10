@@ -35,7 +35,6 @@ void increase_buffer_sent(text_t* ptr_Text, size_t index){
 
     if (temp){
         ptr_Text->sent_arr[index].start = temp;
-        temp = NULL;
 
     } else{
         wprintf(L"Не удалось перевыделить память.\nПрекращение выполнения программы.\n");
@@ -54,7 +53,6 @@ void increase_buffer_text(text_t* ptr_Text){
 
     if (temp){
         ptr_Text->sent_arr = temp;
-        temp = NULL;
 
         create_struct_sent(ptr_Text);
 
