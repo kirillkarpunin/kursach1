@@ -1,0 +1,1 @@
+void delete_sents_more_10_words(text_t* ptr_Text);

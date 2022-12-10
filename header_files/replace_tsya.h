@@ -1,0 +1,1 @@
+void replace_tsya(text_t* ptr_Text);

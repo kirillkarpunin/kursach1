@@ -3,7 +3,7 @@
 #include "header_files/structs.h"
 #include "header_files/text_io.h"
 #include "header_files/memory_interaction.h"
-#include "header_files/process_text.h"
+#include "header_files/preprocess_text.h"
 #include "header_files/menu.h"
 
 int main(){

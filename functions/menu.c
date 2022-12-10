@@ -1,6 +1,10 @@
 #include "../header_files/structs.h"
 #include "../header_files/text_io.h"
-#include "../header_files/process_text.h"
+#include "../header_files/replace_tsya.h"
+#include "../header_files/highlight_word.h"
+#include "../header_files/sort_text.h"
+#include "../header_files/del_sents_more_10_words.h"
+
 
 void hint(){
     wprintf(L"\n\n-----------------------------------------------------------------------"
@@ -48,7 +52,7 @@ void menu(text_t* ptr_Text){
             case L'q':
                 break;
             default:
-                wprintf(L"Неверный ввод\n");
+                wprintf(L"\nНеверный ввод\n");
                 continue;
         }
 
