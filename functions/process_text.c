@@ -142,6 +142,8 @@ int cmp (const void* a, const void* b){
 wchar_t* get_second_word(text_t* ptr_Text);
 wchar_t* scan_separators(wchar_t* temp);
 wchar_t* scan_graph(wchar_t* temp);
+void add_color_symbols(text_t* ptr_Text, size_t i, wchar_t* word_index, size_t word_len);
+
 
 void highlight_word(text_t* ptr_Text){
     if (ptr_Text->sent_arr[0].amount_of_words < 2){
@@ -150,15 +152,37 @@ void highlight_word(text_t* ptr_Text){
         wchar_t* word = get_second_word(ptr_Text);
         size_t word_len = wcslen(word);
 
+        wprintf(L"\nПредложения со словом \"\033[0;32m%ls\033[0m\":\n", word);
+
         for (size_t i = 0; i < ptr_Text->len;i++){
             wchar_t* word_index = wcsstr(ptr_Text->sent_arr[i].start, word);
-            if (word_index != NULL && (word_index == 0 || iswspace(*(word_index-1)) || *(word_index-1) == L',') &&
-               (*(word_index+word_len) == L'.' || iswspace(*(word_index+word_len)) || *(word_index+word_len) == L',')){
-                spec_print_text(i);
+            if (word_index != NULL && (word_index == ptr_Text->sent_arr[i].start || iswspace(*(word_index-1)) || *(word_index-1) == L',') &&
+                (*(word_index+word_len) == L'.' || iswspace(*(word_index+word_len)) || *(word_index+word_len) == L',')){
+                spec_print_text(ptr_Text, i, word_index, word_len);
             }
         }
 
         free(word);
+    }
+}
+
+void add_color_symbols(text_t* ptr_Text, size_t i, wchar_t* word_index, size_t word_len){
+    wchar_t* green_color = L"\033[0;32m";
+    wchar_t* default_color = L"\033[0m";
+
+    wchar_t* end_sent = ptr_Text->sent_arr[i].start+ptr_Text->sent_arr[i].len;
+
+    if (ptr_Text->sent_arr[i].len == ptr_Text->sent_arr[i].capacity - wcslen(green_color)) {
+        increase_buffer_sent(ptr_Text, i);
+    }
+
+    memmove(word_index + wcslen(green_color), word_index, (end_sent - word_index + 1) * sizeof(wchar_t));
+    ptr_Text->sent_arr[i].len+=wcslen(green_color);
+    end_sent+=wcslen(green_color);
+
+    for( int j = 0; i < wcslen(green_color); i++){
+        *(word_index) = green_color[i];
+        word_index++;
     }
 }
 
@@ -172,21 +196,17 @@ void highlight_word(text_t* ptr_Text){
 
 
 
-
-
-//
-//        wchar_t* green_color = L"\033[0;32m";
-//        wchar_t* default_color = L"\033[0m";
 //
 
 //
 
 //
-//        memmove(start_word + wcslen(green_color), start_word, (end_sent - start_word + 1) * sizeof(wchar_t));
+
+//
+
 //
 //
-//        *(start_word) = green_color[0];
-//        start_word++;
+
 //        *(start_word) = green_color[1];
 //        start_word++;
 //        *(start_word) = green_color[2];
@@ -216,7 +236,7 @@ wchar_t* get_second_word(text_t* ptr_Text){
 
     wchar_t* end_word = temp;
 
-    wchar_t* word = malloc((end_word-start_word + 1));
+    wchar_t* word = malloc((end_word-start_word + 1) * sizeof(wchar_t));
     for (size_t i = 0; i < (end_word-start_word); i++){
         word[i] = *(start_word+i);
     }

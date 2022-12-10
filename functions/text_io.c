@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "../header_files/structs.h"
+#include "../header_files/process_text.h"
 #include "../header_files/memory_interaction.h"
 
 void get_text(text_t* ptr_Text){
@@ -65,4 +66,13 @@ void print_text(text_t* ptr_Text){
         fputws(ptr_Text->sent_arr[i].start, stdout);
     }
     wprintf(L"\n");
+}
+
+void spec_print_text(text_t* ptr_Text, size_t i, wchar_t* word_index, size_t word_len){
+
+    add_color_symbols(ptr_Text, i, word_index, word_len);
+
+    fputws(ptr_Text->sent_arr[i].start, stdout);
+
+
 }
