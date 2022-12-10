@@ -11,7 +11,6 @@ int main(){
 
     text_t* ptr_Text = create_struct_text();
 
-    wprintf(L"Введите текст:\n");
     get_text(ptr_Text);
 
     if (ptr_Text->len == 0){

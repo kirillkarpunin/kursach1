@@ -5,6 +5,13 @@
 #include "../header_files/memory_interaction.h"
 
 void get_text(text_t* ptr_Text){
+    wprintf(L"-----------------------------------------------------------------------"
+            "\nФормат ввода текста:"
+            "\n\tОдиночный символ точки - разделитель предложений"
+            "\n\tЗапятая и пробельные символы - разделители слов"
+            "\n\tДвойной символ переноса строки - конец ввода"
+            "\n-----------------------------------------------------------------------\n");
+    wprintf(L"Введите текст:\n");
     int stop = 0;
     while (!stop) {
 
@@ -23,14 +30,10 @@ void get_text(text_t* ptr_Text){
                 if (c == L'\n'){
                     stop = 1;
 
-                    if (ptr_Text->sent_arr[ptr_Text->len - 1].len == 0){
-                        destroy_sent(ptr_Text, ptr_Text->len - 1);
-                    } else {
-                        *(ptr_Text->sent_arr[ptr_Text->len - 1].start + ptr_Text->sent_arr[ptr_Text->len - 1].len) = L'.';
-                        ptr_Text->sent_arr[ptr_Text->len - 1].len ++;
-                        *(ptr_Text->sent_arr[ptr_Text->len - 1].start + ptr_Text->sent_arr[ptr_Text->len - 1].len) = L'\0';
-                        ptr_Text->sent_arr[ptr_Text->len - 1].len ++;
-                    }
+                    *(ptr_Text->sent_arr[ptr_Text->len - 1].start + ptr_Text->sent_arr[ptr_Text->len - 1].len) = L'.';
+                    ptr_Text->sent_arr[ptr_Text->len - 1].len ++;
+                    *(ptr_Text->sent_arr[ptr_Text->len - 1].start + ptr_Text->sent_arr[ptr_Text->len - 1].len) = L'\0';
+                    ptr_Text->sent_arr[ptr_Text->len - 1].len ++;
 
                     break;
                 } else {
@@ -43,6 +46,10 @@ void get_text(text_t* ptr_Text){
             ptr_Text->sent_arr[ptr_Text->len - 1].len ++;
 
         } while (c != L'.');
+
+        if (*(ptr_Text->sent_arr[ptr_Text->len - 1].start) == L'.') {
+            destroy_sent(ptr_Text, ptr_Text->len - 1);
+        }
 
         if (!stop) {
             *(ptr_Text->sent_arr[ptr_Text->len - 1].start + ptr_Text->sent_arr[ptr_Text->len - 1].len) = L'\0';
