@@ -56,7 +56,7 @@ void get_text(text_t* ptr_Text){
 void print_text(text_t* ptr_Text){
 
     if (ptr_Text->len == 0){
-        wprintf(L"Получен пустой текст.\nПрекращение выполнения программы.\n");
+        wprintf(L"\nПолучен пустой текст.\nПрекращение выполнения программы.\n");
         destroy_text(ptr_Text);
         exit(0);
     }
