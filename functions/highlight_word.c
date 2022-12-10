@@ -15,7 +15,7 @@ void remove_color_symbols(text_t* ptr_Text, size_t i);
 
 void highlight_word(text_t* ptr_Text){
     if (ptr_Text->sent_arr[0].amount_of_words < 2){
-        wprintf(L"В первом предложении нет второго слова.\n");
+        wprintf(L"\nВ первом предложении нет второго слова.\n");
     } else {
         wchar_t* word = get_second_word(ptr_Text);
         size_t word_len = wcslen(word);
@@ -135,7 +135,6 @@ wchar_t* get_second_word(text_t* ptr_Text){
 }
 
 wchar_t* scan_separators(wchar_t* temp){
-    size_t i = 0;
     while (iswspace(*(temp)) || *(temp) == L','){
         temp++;
     }
@@ -143,7 +142,6 @@ wchar_t* scan_separators(wchar_t* temp){
 }
 
 wchar_t* scan_graph(wchar_t* temp){
-    size_t i = 0;
     while (!(iswspace(*(temp)) || *(temp) == L',' || *(temp) == L'.')){
         temp++;
     }
