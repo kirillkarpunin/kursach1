@@ -143,6 +143,7 @@ wchar_t* get_second_word(text_t* ptr_Text);
 wchar_t* scan_separators(wchar_t* temp);
 wchar_t* scan_graph(wchar_t* temp);
 void add_color_symbols(text_t* ptr_Text, size_t i, wchar_t* word_index, size_t word_len);
+void remove_color_symbols(text_t* ptr_Text, size_t i);
 
 
 void highlight_word(text_t* ptr_Text){
@@ -178,6 +179,7 @@ void highlight_word(text_t* ptr_Text){
             }
             if (isprint){
                 spec_print_text(ptr_Text->sent_arr[i]);
+                remove_color_symbols(ptr_Text, i);
             }
         }
         wprintf(L"\n");
@@ -211,6 +213,33 @@ void add_color_symbols(text_t* ptr_Text, size_t i, wchar_t* word_index, size_t w
         word_end++;
     }
 
+}
+
+void remove_color_symbols(text_t* ptr_Text, size_t i){
+    wchar_t* green_color = L"\033[0;32m";
+    wchar_t* default_color = L"\033[0m";
+
+    wchar_t* green_index = wcsstr(ptr_Text->sent_arr[i].start, green_color);
+    wchar_t* default_index = wcsstr(ptr_Text->sent_arr[i].start, default_color);
+
+    wchar_t* end_sent = ptr_Text->sent_arr[i].start+ptr_Text->sent_arr[i].len;
+
+    while (green_index != NULL && default_index != NULL){
+        if (green_index != NULL){
+            memmove(green_index, green_index + wcslen(green_color), (end_sent - green_index + 1) * sizeof(wchar_t));
+            ptr_Text->sent_arr[i].len-=wcslen(green_color);
+            end_sent-=wcslen(green_color);
+
+            default_index = wcsstr(ptr_Text->sent_arr[i].start, default_color);
+        }
+        if (default_index != NULL){
+            memmove(default_index, default_index + wcslen(default_color), (end_sent - default_index + 1) * sizeof(wchar_t));
+            ptr_Text->sent_arr[i].len-=wcslen(default_color);
+            end_sent-=wcslen(default_color);
+
+            green_index = wcsstr(ptr_Text->sent_arr[i].start, green_color);
+        }
+    }
 }
 
 wchar_t* get_second_word(text_t* ptr_Text){
