@@ -155,16 +155,32 @@ void highlight_word(text_t* ptr_Text){
         wprintf(L"\nПредложения со словом \"\033[0;32m%ls\033[0m\":\n", word);
 
         for (size_t i = 0; i < ptr_Text->len;i++){
+            int isprint = 0;
+
             wchar_t* word_index = wcsstr(ptr_Text->sent_arr[i].start, word);
             while (word_index != NULL){
                 if ((word_index == ptr_Text->sent_arr[i].start || iswspace(*(word_index-1)) || *(word_index-1) == L',') &&
                     (*(word_index+word_len) == L'.' || iswspace(*(word_index+word_len)) || *(word_index+word_len) == L',')){
-                    spec_print_text(ptr_Text, i, word_index, word_len);
-            }
 
+                    if (ptr_Text->sent_arr[i].len >= ptr_Text->sent_arr[i].capacity - 11) { //11 - len of color symbols
+                        increase_buffer_sent(ptr_Text, i);
+                        word_index = wcsstr(ptr_Text->sent_arr[i].start, word);
+                        continue;
+                    }
+
+                    add_color_symbols(ptr_Text, i, word_index, word_len);
+                    isprint = 1;
+                    word_index = wcsstr(word_index+word_len+11, word); //11 - len of color symbols
+                } else {
+                    word_index = wcsstr(word_index+word_len, word);
+                }
+
+            }
+            if (isprint){
+                spec_print_text(ptr_Text->sent_arr[i]);
             }
         }
-
+        wprintf(L"\n");
         free(word);
     }
 }
@@ -174,10 +190,6 @@ void add_color_symbols(text_t* ptr_Text, size_t i, wchar_t* word_index, size_t w
     wchar_t* default_color = L"\033[0m";
 
     wchar_t* end_sent = ptr_Text->sent_arr[i].start+ptr_Text->sent_arr[i].len;
-
-    if (ptr_Text->sent_arr[i].len == ptr_Text->sent_arr[i].capacity - wcslen(green_color) + 1) {
-        increase_buffer_sent(ptr_Text, i);
-    }
 
     memmove(word_index + wcslen(green_color), word_index, (end_sent - word_index + 1) * sizeof(wchar_t));
     ptr_Text->sent_arr[i].len+=wcslen(green_color);
@@ -189,10 +201,6 @@ void add_color_symbols(text_t* ptr_Text, size_t i, wchar_t* word_index, size_t w
     }
 
     wchar_t* word_end = word_index+word_len;
-
-    if (ptr_Text->sent_arr[i].len == ptr_Text->sent_arr[i].capacity - wcslen(default_color) + 1) {
-        increase_buffer_sent(ptr_Text, i);
-    }
 
     memmove(word_end + wcslen(default_color), word_end, (end_sent - word_end + 1) * sizeof(wchar_t));
     ptr_Text->sent_arr[i].len+=wcslen(default_color);
