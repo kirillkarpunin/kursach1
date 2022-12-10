@@ -156,9 +156,12 @@ void highlight_word(text_t* ptr_Text){
 
         for (size_t i = 0; i < ptr_Text->len;i++){
             wchar_t* word_index = wcsstr(ptr_Text->sent_arr[i].start, word);
-            if (word_index != NULL && (word_index == ptr_Text->sent_arr[i].start || iswspace(*(word_index-1)) || *(word_index-1) == L',') &&
-                (*(word_index+word_len) == L'.' || iswspace(*(word_index+word_len)) || *(word_index+word_len) == L',')){
-                spec_print_text(ptr_Text, i, word_index, word_len);
+            while (word_index != NULL){
+                if ((word_index == ptr_Text->sent_arr[i].start || iswspace(*(word_index-1)) || *(word_index-1) == L',') &&
+                    (*(word_index+word_len) == L'.' || iswspace(*(word_index+word_len)) || *(word_index+word_len) == L',')){
+                    spec_print_text(ptr_Text, i, word_index, word_len);
+            }
+
             }
         }
 
@@ -172,7 +175,7 @@ void add_color_symbols(text_t* ptr_Text, size_t i, wchar_t* word_index, size_t w
 
     wchar_t* end_sent = ptr_Text->sent_arr[i].start+ptr_Text->sent_arr[i].len;
 
-    if (ptr_Text->sent_arr[i].len == ptr_Text->sent_arr[i].capacity - wcslen(green_color)) {
+    if (ptr_Text->sent_arr[i].len == ptr_Text->sent_arr[i].capacity - wcslen(green_color) + 1) {
         increase_buffer_sent(ptr_Text, i);
     }
 
@@ -180,45 +183,27 @@ void add_color_symbols(text_t* ptr_Text, size_t i, wchar_t* word_index, size_t w
     ptr_Text->sent_arr[i].len+=wcslen(green_color);
     end_sent+=wcslen(green_color);
 
-    for( int j = 0; i < wcslen(green_color); i++){
-        *(word_index) = green_color[i];
+    for (int j = 0; j < wcslen(green_color); j++){
+        *(word_index) = green_color[j];
         word_index++;
     }
+
+    wchar_t* word_end = word_index+word_len;
+
+    if (ptr_Text->sent_arr[i].len == ptr_Text->sent_arr[i].capacity - wcslen(default_color) + 1) {
+        increase_buffer_sent(ptr_Text, i);
+    }
+
+    memmove(word_end + wcslen(default_color), word_end, (end_sent - word_end + 1) * sizeof(wchar_t));
+    ptr_Text->sent_arr[i].len+=wcslen(default_color);
+    end_sent+=wcslen(default_color);
+
+    for (int j = 0; j < wcslen(default_color); j++){
+        *(word_end) = default_color[j];
+        word_end++;
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-//
-
-//
-
-//
-
-//
-
-//
-//
-
-//        *(start_word) = green_color[1];
-//        start_word++;
-//        *(start_word) = green_color[2];
-//        start_word++;
-//        *(start_word) = green_color[3];
-//        start_word++;
-//        *(start_word) = green_color[4];
-//        start_word++;
-//        *(start_word) = green_color[5];
-//        start_word++;
-//        *(start_word) = green_color[6];
-//        start_word++;
 
 wchar_t* get_second_word(text_t* ptr_Text){
     wchar_t* temp = ptr_Text->sent_arr[0].start;
@@ -255,7 +240,7 @@ wchar_t* scan_separators(wchar_t* temp){
 
 wchar_t* scan_graph(wchar_t* temp){
     size_t i = 0;
-    while (!(iswspace(*(temp)) || *(temp) == L',')){
+    while (!(iswspace(*(temp)) || *(temp) == L',' || *(temp) == L'.')){
         temp++;
     }
     return temp;
