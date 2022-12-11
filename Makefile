@@ -8,7 +8,10 @@ ALL_HEAD=$(HEAD)/menu.h $(HEAD)/text_io.h $(HEAD)/preprocess_text.h $(HEAD)/stru
 
 all: main clear
 
-main: main.o menu.o text_io.o preprocess_text.o create_struct.o memory_interaction.o del_sents_more_10_words.o highlight_word.o replace_tsya.o sort_text.o
+create_obj_fold:
+	mkdir object_files
+
+main: create_obj_fold main.o menu.o text_io.o preprocess_text.o create_struct.o memory_interaction.o del_sents_more_10_words.o highlight_word.o replace_tsya.o sort_text.o
 	$(CC) $(ALL_OBJ) -o main
 
 main.o: main.c $(HEAD)/menu.h $(HEAD)/text_io.h $(HEAD)/preprocess_text.h $(HEAD)/structs.h $(HEAD)/memory_interaction.h
@@ -42,4 +45,4 @@ sort_text.o: $(FUNC)/sort_text.c $(HEAD)/sort_text.h $(HEAD)/structs.h
 	$(CC) -c $(FUNC)/sort_text.c -o $(OBJ)/sort_text.o
 
 clear: main
-	rm -f $(OBJ)/*.o
+	rm -fr $(OBJ)/
