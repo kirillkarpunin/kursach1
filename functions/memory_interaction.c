@@ -21,6 +21,7 @@ void destroy_text(text_t* ptr_Text){
     for (size_t i = 0; i < ptr_Text->len;){
         destroy_sent(ptr_Text, i);
     }
+    free(ptr_Text->sent_arr);
     free(ptr_Text);
 }
 
@@ -49,6 +50,8 @@ void increase_buffer_text(text_t* ptr_Text){
         destroy_text(ptr_Text);
         exit(0);
     }
+
+
     sent_t* temp = realloc(ptr_Text->sent_arr, ptr_Text->len * sizeof(sent_t));
 
     if (temp){

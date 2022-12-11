@@ -52,7 +52,7 @@ void get_text(text_t* ptr_Text){
         }
 
         if (!stop) {
-            if (ptr_Text->sent_arr[ptr_Text->len].start != NULL){
+            if (ptr_Text->len != 0 && ptr_Text->sent_arr[ptr_Text->len-1].start != NULL){
                 *(ptr_Text->sent_arr[ptr_Text->len - 1].start + ptr_Text->sent_arr[ptr_Text->len - 1].len) = L'\0';
             }
 
