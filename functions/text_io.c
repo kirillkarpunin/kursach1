@@ -52,7 +52,9 @@ void get_text(text_t* ptr_Text){
         }
 
         if (!stop) {
-            *(ptr_Text->sent_arr[ptr_Text->len - 1].start + ptr_Text->sent_arr[ptr_Text->len - 1].len) = L'\0';
+            if (ptr_Text->sent_arr[ptr_Text->len].start != NULL){
+                *(ptr_Text->sent_arr[ptr_Text->len - 1].start + ptr_Text->sent_arr[ptr_Text->len - 1].len) = L'\0';
+            }
 
             ptr_Text->len ++;
             increase_buffer_text(ptr_Text);
