@@ -41,11 +41,9 @@ int increase_buffer_sent(text_t* ptr_Text, size_t index){
     }
 }
 
-void increase_buffer_text(text_t* ptr_Text){
+int increase_buffer_text(text_t* ptr_Text){
     if (ptr_Text->len > SIZE_MAX){
-        wprintf(L"\nДостигнута максимальная длина текста.\nПрекращение выполнения программы.\n");
-        destroy_text(ptr_Text);
-        exit(0);
+        return 4;
     }
 
 
@@ -56,9 +54,9 @@ void increase_buffer_text(text_t* ptr_Text){
 
         create_struct_sent(ptr_Text);
 
+        return 0;
+
     } else {
-        wprintf(L"\nНе удалось перевыделить память.\nПрекращение выполнения программы.\n");
-        destroy_text(ptr_Text);
-        exit(0);
+        return 2;
     }
 }

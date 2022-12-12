@@ -1,10 +1,10 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "../header_files/structs.h"
 #include "../header_files/memory_interaction.h"
 
-void get_text(text_t* ptr_Text){
+int get_text(text_t* ptr_Text){
+    int err = 0;
     wprintf(L"-----------------------------------------------------------------------"
             "\nФормат ввода текста:"
             "\n\tОдиночный символ точки - разделитель предложений"
@@ -21,7 +21,10 @@ void get_text(text_t* ptr_Text){
             c = getwchar();
 
             if (ptr_Text->sent_arr[ptr_Text->len - 1].len >= ptr_Text->sent_arr[ptr_Text->len -1].capacity - 1) {
-                increase_buffer_sent(ptr_Text, ptr_Text->len -1);
+                err = increase_buffer_sent(ptr_Text, ptr_Text->len -1);
+                if (err){
+                    return err;
+                }
             }
 
             if (c == L'\n'){
@@ -57,9 +60,13 @@ void get_text(text_t* ptr_Text){
             }
 
             ptr_Text->len ++;
-            increase_buffer_text(ptr_Text);
+            err = increase_buffer_text(ptr_Text);
+            if (err){
+                return err;
+            }
         }
     }
+    return 0;
 }
 
 int print_text(text_t* ptr_Text){
@@ -79,4 +86,19 @@ void spec_print_text(sent_t sent){
 
     fputws(sent.start, stdout);
 
+}
+
+void err_print(int code){
+    switch (code) {
+        case 0:
+            wprintf(L"Введен пустой текст.\nПрекращение выполнения программы.\n");
+        case 1:
+            wprintf(L"\nПолучен пустой текст.\nПрекращение выполнения программы.\n");
+        case 2:
+            wprintf(L"\nНе удалось перевыделить память.\nПрекращение выполнения программы.\n");
+        case 3:
+            wprintf(L"\nДостигнута максимальная длина предложения.\nПрекращение выполнения программы.\n");
+        case 4:
+            wprintf(L"\nДостигнута максимальная длина текста.\nПрекращение выполнения программы.\n");
+    }
 }

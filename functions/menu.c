@@ -38,7 +38,10 @@ int menu(text_t* ptr_Text){
         switch (c) {
             int err;
             case L'1':
-                replace_tsya(ptr_Text);
+                err = replace_tsya(ptr_Text);
+                if (err){
+                    return err;
+                }
                 break;
             case L'2':
                  err = highlight_word(ptr_Text);

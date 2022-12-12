@@ -4,7 +4,7 @@
 #include <string.h>
 #include <wctype.h>
 
-void replace_tsya(text_t* ptr_Text) {
+int replace_tsya(text_t* ptr_Text) {
     wchar_t *substr1 = L"ться";
     wchar_t *substr2 = L"тся";
 
@@ -48,7 +48,10 @@ void replace_tsya(text_t* ptr_Text) {
                 } else {
                     if ((iswspace(*(index2+3)) || *(index2+3) == L',' || *(index2+3) == L'.')) { // 3 - len of тся
                         if (ptr_Text->sent_arr[i].len == ptr_Text->sent_arr[i].capacity) {
-                            increase_buffer_sent(ptr_Text, i);
+                            int err = increase_buffer_sent(ptr_Text, i);
+                            if (err){
+                                return err;
+                            }
                         }
                         index2++;
                         *(index2) = substr1[1];
@@ -72,4 +75,5 @@ void replace_tsya(text_t* ptr_Text) {
             }
         }
     }
+    return 0;
 }
