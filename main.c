@@ -15,6 +15,7 @@ int main(){
 
     err = get_text(ptr_Text);
     if (err){
+        err_print(err);
         destroy_text(ptr_Text);
         return 0;
     }
@@ -30,6 +31,7 @@ int main(){
 
     err = menu(ptr_Text);
     if (err){
+        err_print(err);
         destroy_text(ptr_Text);
         return 0;
     }
