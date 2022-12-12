@@ -21,9 +21,11 @@ void hint(){
             "\n-----------------------------------------------------------------------\n");
 }
 
-void menu(text_t* ptr_Text){
+int menu(text_t* ptr_Text){
     hint();
-    print_text(ptr_Text);
+    if (print_text(ptr_Text)){
+        return 1;
+    }
 
     wchar_t c = 0;
     while (c != L'q'){
@@ -34,11 +36,15 @@ void menu(text_t* ptr_Text){
 
 
         switch (c) {
+            int err;
             case L'1':
                 replace_tsya(ptr_Text);
                 break;
             case L'2':
-                highlight_word(ptr_Text);
+                 err = highlight_word(ptr_Text);
+                 if (err){
+                     return err;
+                 }
                 continue;
             case L'3':
                 sort_text(ptr_Text);
@@ -59,10 +65,12 @@ void menu(text_t* ptr_Text){
         }
 
         if (c != L'q' ){
-            print_text(ptr_Text);
+            if(print_text(ptr_Text)){
+                return 1;
+            }
         }
 
     }
-
+    return 0;
 }
 

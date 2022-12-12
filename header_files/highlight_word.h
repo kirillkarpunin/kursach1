@@ -1,1 +1,1 @@
-void highlight_word(text_t* ptr_Text);
+int highlight_word(text_t* ptr_Text);

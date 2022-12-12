@@ -62,18 +62,17 @@ void get_text(text_t* ptr_Text){
     }
 }
 
-void print_text(text_t* ptr_Text){
+int print_text(text_t* ptr_Text){
 
     if (ptr_Text->len == 0){
-        wprintf(L"\nПолучен пустой текст.\nПрекращение выполнения программы.\n");
-        destroy_text(ptr_Text);
-        exit(0);
+        return 1;
     }
     wprintf(L"\nОбработанный текст:\n");
     for (size_t i = 0; i < ptr_Text->len; i++){
         fputws(ptr_Text->sent_arr[i].start, stdout);
     }
     wprintf(L"\n");
+    return 0;
 }
 
 void spec_print_text(sent_t sent){

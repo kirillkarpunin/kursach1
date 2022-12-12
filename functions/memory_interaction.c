@@ -25,22 +25,19 @@ void destroy_text(text_t* ptr_Text){
     free(ptr_Text);
 }
 
-void increase_buffer_sent(text_t* ptr_Text, size_t index){
+int increase_buffer_sent(text_t* ptr_Text, size_t index){
     ptr_Text->sent_arr[index].capacity += INCREASE_BUFFER_SENT;
     if (ptr_Text->sent_arr[index].capacity > SIZE_MAX){
-        wprintf(L"\nДостигнута максимальная длина предложения.\nПрекращение выполнения программы.\n");
-        destroy_text(ptr_Text);
-        exit(0);
+        return 3;
     }
     wchar_t* temp = realloc(ptr_Text->sent_arr[index].start, ptr_Text->sent_arr[index].capacity * sizeof(wchar_t));
 
     if (temp){
         ptr_Text->sent_arr[index].start = temp;
+        return 0;
 
     } else{
-        wprintf(L"\nНе удалось перевыделить память.\nПрекращение выполнения программы.\n");
-        destroy_text(ptr_Text);
-        exit(0);
+        return 2;
     }
 }
 

@@ -22,7 +22,25 @@ int main(){
     count_words(ptr_Text);
     delete_repetitive_sents(ptr_Text);
 
-    menu(ptr_Text);
+    int err = menu(ptr_Text);
+    if (err){
+        switch (err) {
+            case 1:
+                wprintf(L"\nПолучен пустой текст.\nПрекращение выполнения программы.\n");
+                destroy_text(ptr_Text);
+                return 0;
+            case 2:
+                wprintf(L"\nНе удалось перевыделить память.\nПрекращение выполнения программы.\n");
+                destroy_text(ptr_Text);
+                return 0;
+            case 3:
+                wprintf(L"\nДостигнута максимальная длина предложения.\nПрекращение выполнения программы.\n");
+                destroy_text(ptr_Text);
+                return 0;
+
+        }
+
+    }
 
     destroy_text(ptr_Text);
 

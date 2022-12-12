@@ -13,7 +13,7 @@ void add_color_symbols(text_t* ptr_Text, size_t i, wchar_t* word_index, size_t w
 void remove_color_symbols(text_t* ptr_Text, size_t i);
 
 
-void highlight_word(text_t* ptr_Text){
+int highlight_word(text_t* ptr_Text){
     if (ptr_Text->sent_arr[0].amount_of_words < 2){
         wprintf(L"\nВ первом предложении нет второго слова.\n");
     } else {
@@ -31,7 +31,11 @@ void highlight_word(text_t* ptr_Text){
                     (*(word_index+word_len) == L'.' || iswspace(*(word_index+word_len)) || *(word_index+word_len) == L',')){
 
                     if (ptr_Text->sent_arr[i].len >= ptr_Text->sent_arr[i].capacity - 11) { //11 - len of color symbols
-                        increase_buffer_sent(ptr_Text, i);
+
+                        int err = increase_buffer_sent(ptr_Text, i);
+                        if(err){
+                            return err;
+                        }
                         word_index = wcsstr(ptr_Text->sent_arr[i].start, word);
                         continue;
                     }
@@ -52,6 +56,7 @@ void highlight_word(text_t* ptr_Text){
         wprintf(L"\n");
         free(word);
     }
+    return 0;
 }
 
 void add_color_symbols(text_t* ptr_Text, size_t i, wchar_t* word_index, size_t word_len){
