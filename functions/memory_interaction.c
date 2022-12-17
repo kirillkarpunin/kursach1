@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 #include "../header_files/structs.h"
+#include "../header_files/memory_interaction.h"
 
 void destroy_sent(text_t* ptr_Text, size_t index){
     free(ptr_Text->sent_arr[index].start);

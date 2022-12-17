@@ -1,7 +1,5 @@
 #pragma once
 
-#define INCREASE_BUFFER_SENT 75
-
 #include <wchar.h>
 
 struct Sentence{
